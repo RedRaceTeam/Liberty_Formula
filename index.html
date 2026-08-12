@@ -1,275 +1,771 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liberty Formula</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Liberty Formula · Neue Ära</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+    <!-- Plyr CSS (video player) -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
     <style>
+        /* ============================================
+               RESET & BASE
+            ============================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #0a0a12;
-            color: #f0f0f5;
+            background: #0B0B12;
+            color: #F0F0F5;
             font-family: 'Inter', sans-serif;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .header {
+            font-size: 14px;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
-            justify-content: space-between;
+        }
+
+        /* ============================================
+               SCROLLBAR
+            ============================================ */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #14141E; }
+        ::-webkit-scrollbar-thumb { background: #E50914; border-radius: 4px; }
+
+        /* ============================================
+               SIDEBAR
+            ============================================ */
+        .sidebar {
+            width: 72px;
+            background: #0F0F18;
+            border-right: 1px solid #1E1E2E;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 12px 20px;
-            background: #14141e;
-            border-radius: 12px;
-            border: 1px solid #2a2a3a;
-            margin-bottom: 20px;
+            padding: 20px 0;
+            flex-shrink: 0;
+            z-index: 10;
         }
-        .logo {
-            font-size: 24px;
+
+        .sidebar .logo {
+            font-size: 22px;
             font-weight: 700;
-            color: #ff2d2d;
+            color: #E50914;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
         }
-        .logo span {
-            color: #f0f0f5;
+
+        .sidebar .logo span {
+            color: #F0F0F5;
         }
-        .status {
+
+        .sidebar nav {
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            color: #6A6A7A;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+            transition: 0.2s;
+            gap: 2px;
+        }
+
+        .sidebar nav a .icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .sidebar nav a:hover {
+            background: #1A1A2A;
+            color: #F0F0F5;
+        }
+
+        .sidebar nav a.active {
+            background: #E50914;
+            color: #fff;
+        }
+
+        .sidebar .bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 8px;
-            font-size: 13px;
-            color: #8a8a9a;
         }
-        .status .dot {
+
+        .sidebar .bottom .status-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: #4CAF50;
             animation: pulse 1.5s infinite;
         }
-        .status .dot.off {
-            background: #ff1744;
+
+        .sidebar .bottom .status-dot.off {
+            background: #E50914;
+            animation: none;
         }
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: 3fr 2fr;
-            gap: 20px;
+        /* ============================================
+               MAIN CONTENT
+            ============================================ */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px 24px 24px 24px;
         }
-        .card {
-            background: #14141e;
-            border-radius: 12px;
-            border: 1px solid #2a2a3a;
-            padding: 20px;
+
+        /* Header */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-shrink: 0;
         }
-        .card h3 {
+
+        .main-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .main-header h1 small {
+            font-weight: 400;
+            color: #6A6A7A;
             font-size: 14px;
-            text-transform: uppercase;
-            color: #6a6a7a;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #222;
-            padding-bottom: 10px;
+            margin-left: 8px;
         }
 
-        #telemetry {
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.8;
-            color: #d0d0dd;
-            white-space: pre-wrap;
-            min-height: 300px;
+        .main-header .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
 
-        .race-control {
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: #ffb74d;
-            min-height: 100px;
+        .main-header .actions .badge {
+            background: #1A1A2A;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #8A8A9A;
+            border: 1px solid #2A2A3A;
         }
 
-        .comment-box {
-            margin-top: 12px;
+        .main-header .actions .badge .live {
+            color: #E50914;
+            font-weight: 700;
+        }
+
+        /* ============================================
+               DASHBOARD GRID
+            ============================================ */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 16px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Видео плеер — занимает 2 колонки по ширине */
+        .video-widget {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            background: #0F0F18;
+            border-radius: 16px;
+            border: 1px solid #1E1E2E;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            min-height: 200px;
+        }
+
+        .video-widget video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-widget .plyr {
+            height: 100%;
+        }
+
+        /* Карта трассы */
+        .map-widget {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+            background: #0F0F18;
+            border-radius: 16px;
+            border: 1px solid #1E1E2E;
             padding: 16px;
-            background: #1a1a28;
-            border-radius: 8px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: #e0e0ed;
-            min-height: 80px;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
         }
-        .comment-box .label {
+
+        .map-widget .widget-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #6A6A7A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .map-widget svg {
+            width: 100%;
+            height: auto;
+            flex: 1;
+            background: #0B0B12;
+            border-radius: 8px;
+        }
+
+        /* Правая колонка */
+        .right-col {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 0;
+        }
+
+        .right-col .widget {
+            background: #0F0F18;
+            border-radius: 16px;
+            border: 1px solid #1E1E2E;
+            padding: 16px;
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right-col .widget .widget-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #6A6A7A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .right-col .widget .widget-body {
+            flex: 1;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #D0D0DD;
+        }
+
+        .right-col .widget .widget-body .pos-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px solid #1A1A2A;
+        }
+
+        .right-col .widget .widget-body .pos-row .pos {
+            color: #6A6A7A;
+            width: 24px;
+        }
+
+        .right-col .widget .widget-body .pos-row .driver {
+            flex: 1;
+            margin-left: 8px;
+        }
+
+        .right-col .widget .widget-body .pos-row .gap {
+            color: #8A8A9A;
+        }
+
+        .right-col .widget .ai-body {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #E0E0ED;
+        }
+
+        .right-col .widget .ai-body .label {
             font-size: 11px;
-            color: #6a6a7a;
+            color: #6A6A7A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        /* ============================================
+               АДМИН-ПАНЕЛЬ (скрыта по умолчанию)
+            ============================================ */
+        .admin-panel {
+            display: none;
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+            background: #0F0F18;
+            border-radius: 16px;
+            border: 1px solid #1E1E2E;
+            padding: 24px;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .admin-panel.active {
+            display: flex;
+        }
+
+        .admin-panel h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .admin-panel .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .admin-panel .admin-card {
+            background: #14141E;
+            border: 1px solid #2A2A3A;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .admin-panel .admin-card h4 {
+            font-size: 13px;
+            color: #6A6A7A;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
 
-        .btn {
-            background: #ff2d2d;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 12px;
-        }
-        .btn:hover {
-            background: #e02020;
-            transform: scale(1.02);
-        }
-        .btn.secondary {
-            background: #2a2a3a;
-        }
-        .btn.secondary:hover {
-            background: #3a3a4a;
+        .admin-panel .admin-card input,
+        .admin-panel .admin-card select {
+            width: 100%;
+            background: #0B0B12;
+            border: 1px solid #2A2A3A;
+            color: #F0F0F5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 8px;
         }
 
-        @media (max-width: 768px) {
-            .grid {
+        .admin-panel .admin-card .btn {
+            background: #E50914;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .admin-panel .admin-card .btn:hover {
+            background: #C40812;
+        }
+
+        .admin-panel .admin-card .btn.secondary {
+            background: #2A2A3A;
+        }
+
+        .admin-panel .admin-card .btn.secondary:hover {
+            background: #3A3A4A;
+        }
+
+        /* ============================================
+               RESPONSIVE
+            ============================================ */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .video-widget {
+                grid-column: 1;
+                grid-row: auto;
+            }
+            .map-widget {
+                grid-column: 1;
+                grid-row: auto;
+            }
+            .right-col {
+                grid-column: 1;
+                grid-row: auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .admin-panel {
+                grid-column: 1;
+                grid-row: auto;
+            }
+            .admin-panel .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                width: 56px;
+                padding: 12px 0;
+            }
+            .sidebar .logo {
+                font-size: 16px;
+            }
+            .sidebar nav a {
+                width: 40px;
+                height: 40px;
+                font-size: 8px;
+            }
+            .sidebar nav a .icon {
+                font-size: 16px;
+            }
+            .main {
+                padding: 12px;
+            }
+            .right-col {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">LIBERTY<span>FORMULA</span></div>
-            <div class="status">
-                <span class="dot" id="wsDot"></span>
-                <span id="wsStatus">Connecting...</span>
-            </div>
+
+    <!-- ============================================
+    SIDEBAR
+    ============================================ -->
+    <aside class="sidebar">
+        <div class="logo">L<span>F</span></div>
+        <nav>
+            <a href="#" class="active" data-page="dashboard">
+                <span class="icon">🏠</span>
+                <span>Main</span>
+            </a>
+            <a href="#" data-page="dashboard">
+                <span class="icon">📊</span>
+                <span>Data</span>
+            </a>
+            <a href="#" data-page="dashboard">
+                <span class="icon">🎥</span>
+                <span>Video</span>
+            </a>
+            <a href="#" data-page="dashboard">
+                <span class="icon">🗺️</span>
+                <span>Track</span>
+            </a>
+            <a href="#" data-page="admin">
+                <span class="icon">⚙️</span>
+                <span>Admin</span>
+            </a>
+        </nav>
+        <div class="bottom">
+            <div class="status-dot" id="wsDot"></div>
+            <span style="font-size:8px;color:#6A6A7A;" id="wsStatus">Connecting</span>
         </div>
+    </aside>
 
-        <!-- Grid -->
-        <div class="grid">
-            <!-- Telemetry -->
-            <div class="card">
-                <h3>📡 Live Telemetry</h3>
-                <pre id="telemetry">Waiting for data...</pre>
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <div class="main">
+
+        <!-- Header -->
+        <header class="main-header">
+            <h1>Liberty Formula <small>Neue Ära</small></h1>
+            <div class="actions">
+                <span class="badge"><span class="live">●</span> Live</span>
+                <span class="badge" id="sessionName">Loading session...</span>
+            </div>
+        </header>
+
+        <!-- ============================================
+        DASHBOARD
+        ============================================ -->
+        <div class="dashboard" id="dashboard">
+
+            <!-- Видео плеер -->
+            <div class="video-widget">
+                <video id="player" playsinline controls></video>
             </div>
 
-            <!-- Right column -->
-            <div>
-                <!-- Race Control -->
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3>🚦 FIA Race Control</h3>
-                    <div class="race-control" id="raceControl">No notices yet.</div>
+            <!-- Карта трассы -->
+            <div class="map-widget">
+                <div class="widget-header">
+                    <span>🗺️ Track Map</span>
+                    <span id="mapStatus">Live positions</span>
+                </div>
+                <svg viewBox="0 0 800 300" id="trackMap">
+                    <!-- Трасса (упрощённый контур) -->
+                    <path d="M100,250 C100,250 150,50 300,50 C450,50 500,150 650,150 C750,150 750,250 650,250 C550,250 500,200 400,200 C300,200 250,150 200,150 C150,150 100,250 100,250Z"
+                    stroke="#2A2A3A" stroke-width="4" fill="none" />
+                    <!-- Старт/финиш -->
+                    <line x1="100" y1="250" x2="140" y2="250" stroke="#E50914" stroke-width="6" />
+                    <!-- Позиции болидов -->
+                    <circle cx="280" cy="120" r="8" fill="#E50914" id="car1" />
+                    <circle cx="450" cy="200" r="8" fill="#FFB74D" id="car2" />
+                    <circle cx="600" cy="180" r="8" fill="#4CAF50" id="car3" />
+                </svg>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="right-col">
+
+                <!-- Телеметрия (позиции) -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <span>📡 Live Telemetry</span>
+                        <span id="telemetryTime">—</span>
+                    </div>
+                    <div class="widget-body" id="telemetryBody">
+                        <div class="pos-row"><span class="pos">1</span><span class="driver">PAL</span><span class="gap">LEADER</span></div>
+                        <div class="pos-row"><span class="pos">2</span><span class="driver">KIR</span><span class="gap">+1.2s</span></div>
+                        <div class="pos-row"><span class="pos">3</span><span class="driver">MAL</span><span class="gap">+2.8s</span></div>
+                        <div class="pos-row"><span class="pos">4</span><span class="driver">LUN</span><span class="gap">+4.1s</span></div>
+                        <div class="pos-row"><span class="pos">5</span><span class="driver">OWA</span><span class="gap">+5.6s</span></div>
+                    </div>
                 </div>
 
                 <!-- AI Commentary -->
-                <div class="card">
-                    <h3>🧠 AI Commentary</h3>
-                    <div class="comment-box" id="commentBox">
-                        <div class="label">💬 Live Analysis</div>
-                        <span id="commentary">Press "Generate" to get AI analysis</span>
+                <div class="widget">
+                    <div class="widget-header">
+                        <span>🧠 Nico · AI Commentary</span>
+                        <span id="aiStatus">Ready</span>
                     </div>
-                    <button class="btn" onclick="fetchCommentary()">Generate Commentary</button>
-                    <button class="btn secondary" onclick="fetchTelemetry()" style="margin-left: 10px;">Refresh Data</button>
+                    <div class="widget-body ai-body" id="commentaryBody">
+                        <div class="label">💬 Live Analysis</div>
+                        <span id="commentaryText">Press "Generate" to get AI analysis</span>
+                        <button class="btn" style="margin-top:12px;background:#E50914;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-weight:600;cursor:pointer;" onclick="fetchCommentary()">Generate</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============================================
+            АДМИН-ПАНЕЛЬ (скрыта)
+            ============================================ -->
+            <div class="admin-panel" id="adminPanel">
+                <h2>⚙️ Admin Panel</h2>
+                <p style="color:#6A6A7A;font-size:13px;">Управление источниками, AI, WebSocket и логами.</p>
+
+                <div class="admin-grid">
+                    <!-- Источники видео -->
+                    <div class="admin-card">
+                        <h4>🎥 Video Sources</h4>
+                        <select id="sourceSelect">
+                            <option value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8">Test Stream (Mux)</option>
+                            <option value="https://cdn.jwplayer.com/manifests/yp34SRmf.m3u8">JW Player Test</option>
+                            <option value="custom">Custom URL</option>
+                        </select>
+                        <input type="text" id="customSource" placeholder="Enter custom URL" style="display:none;"/>
+                        <button class="btn" onclick="switchSource()">Apply</button>
+                        <button class="btn secondary" onclick="fetchTelemetry()">Refresh Telemetry</button>
+                    </div>
+
+                    <!-- AI & Logs -->
+                    <div class="admin-card">
+                        <h4>🧠 AI Settings</h4>
+                        <button class="btn" onclick="fetchCommentary()">Generate Commentary</button>
+                        <button class="btn secondary" style="margin-left:8px;" onclick="toggleAI()">Toggle AI</button>
+                        <div style="margin-top:12px;font-size:12px;color:#6A6A7A;">
+                            <span id="aiLog">AI: Online</span>
+                        </div>
+                    </div>
+
+                    <div class="admin-card" style="grid-column:1/3;">
+                        <h4>📋 WebSocket Logs</h4>
+                        <div id="wsLogs" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A9A;max-height:120px;overflow-y:auto;background:#0B0B12;padding:8px;border-radius:8px;">
+                            [INFO] WebSocket connecting...
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+        </div><!-- /dashboard -->
+    </div><!-- /main -->
+
+
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
+
+    <!-- Plyr + hls.js -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.17/dist/hls.min.js"></script>
 
     <script>
-        // === WebSocket ===
+        // ============================================
+        // 1. WEBHOOK / WEBSOCKET
+        // ============================================
         let ws = null;
+        const wsDot = document.getElementById('wsDot');
+        const wsStatus = document.getElementById('wsStatus');
 
-        function connectWebSocket() {
+        function connectWS() {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/ws`;
-            ws = new WebSocket(wsUrl);
+            const url = `${protocol}//${window.location.host}/ws`;
+            ws = new WebSocket(url);
 
-            ws.onopen = function() {
-                document.getElementById('wsStatus').textContent = 'Online';
-                document.getElementById('wsDot').className = 'dot';
+            ws.onopen = () => {
+                wsDot.className = 'status-dot';
+                wsStatus.textContent = 'Online';
+                logWS('[INFO] Connected');
             };
 
-            ws.onmessage = function(event) {
+            ws.onmessage = (e) => {
                 try {
-                    const msg = JSON.parse(event.data);
+                    const msg = JSON.parse(e.data);
                     if (msg.type === 'telemetry') {
-                        displayTelemetry(msg);
+                        updateTelemetry(msg);
                     }
-                } catch (e) {
-                    console.error('WebSocket error:', e);
+                } catch (err) {
+                    logWS('[ERROR] ' + err.message);
                 }
             };
 
-            ws.onclose = function() {
-                document.getElementById('wsStatus').textContent = 'Offline';
-                document.getElementById('wsDot').className = 'dot off';
-                setTimeout(connectWebSocket, 3000);
+            ws.onclose = () => {
+                wsDot.className = 'status-dot off';
+                wsStatus.textContent = 'Offline';
+                logWS('[WARN] Disconnected, retrying...');
+                setTimeout(connectWS, 3000);
+            };
+
+            ws.onerror = (err) => {
+                logWS('[ERROR] WebSocket error');
             };
         }
 
-        function displayTelemetry(data) {
-            const el = document.getElementById('telemetry');
-            const positions = data.data?.positions || [];
+        function logWS(msg) {
+            const el = document.getElementById('wsLogs');
+            if (el) el.innerHTML += `\n${new Date().toLocaleTimeString()} ${msg}`;
+        }
 
+        // ============================================
+        // 2. TELEMETRY
+        // ============================================
+        function updateTelemetry(data) {
+            const body = document.getElementById('telemetryBody');
+            const timeEl = document.getElementById('telemetryTime');
+            if (!body) return;
+
+            const positions = data.data?.positions || [];
             if (positions.length === 0) {
-                el.textContent = 'No positions available';
+                body.innerHTML = '<div style="color:#6A6A7A;">No positions available</div>';
                 return;
             }
 
             const sorted = positions.sort((a, b) => a.position - b.position);
-            let text = `🏁 ${data.session?.name || 'Unknown GP'} — ${data.session?.country || ''}\n`;
-            text += `🕐 ${new Date(data.timestamp).toLocaleTimeString()}\n`;
-            text += '─'.repeat(30) + '\n';
-            text += 'POS  #  DRIVER       GAP\n';
-            text += '─'.repeat(30) + '\n';
-
-            for (const p of sorted.slice(0, 12)) {
+            let html = '';
+            for (const p of sorted.slice(0, 10)) {
                 const driver = data.data?.drivers?.find(d => d.driver_number === p.driver_number);
                 const name = driver ? driver.full_name?.split(' ').pop() : '???';
-                const gap = p.gap_to_leader !== undefined ? `+${p.gap_to_leader.toFixed(2)}s` : 'INTERVAL';
-                text += `${String(p.position).padStart(3)}  #${String(p.driver_number).padStart(2)}  ${name.padEnd(10)}  ${gap}\n`;
+                const gap = p.gap_to_leader !== undefined ? `+${p.gap_to_leader.toFixed(1)}s` : '—';
+                html += `<div class="pos-row"><span class="pos">${p.position}</span><span class="driver">${name}</span><span class="gap">${gap}</span></div>`;
             }
-            el.textContent = text;
+            body.innerHTML = html;
+
+            if (data.timestamp) {
+                timeEl.textContent = new Date(data.timestamp).toLocaleTimeString();
+            }
+
+            // Обновляем карту
+            updateMap(sorted);
         }
 
-        async function fetchTelemetry() {
-            try {
-                const res = await fetch('/api/telemetry');
-                const data = await res.json();
-                if (data.status === 'ok' && data.data) {
-                    displayTelemetry(data.data);
+        function updateMap(positions) {
+            const cars = document.querySelectorAll('#trackMap circle');
+            // В реальности здесь нужно двигать точки по трассе
+            // Пока просто пример
+            cars.forEach((car, i) => {
+                if (positions[i]) {
+                    const x = 200 + (i * 150) % 600;
+                    const y = 100 + (i * 40) % 200;
+                    car.setAttribute('cx', x);
+                    car.setAttribute('cy', y);
                 }
-            } catch (e) {
-                console.error('Fetch error:', e);
+            });
+        }
+
+        // ============================================
+        // 3. VIDEO PLAYER
+        // ============================================
+        let player = null;
+        let hls = null;
+
+        function initPlayer(url) {
+            const video = document.getElementById('player');
+            if (!video) return;
+
+            // Destroy old
+            if (player) player.destroy();
+            if (hls) hls.destroy();
+
+            if (Hls.isSupported()) {
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+                player = new Plyr(video);
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                player = new Plyr(video);
+            } else {
+                console.warn('HLS not supported');
             }
         }
 
-        async function fetchRaceControl() {
-            try {
-                const res = await fetch('/api/racecontrol');
-                const data = await res.json();
-                const el = document.getElementById('raceControl');
-                if (data.status === 'ok' && data.data.length > 0) {
-                    el.textContent = data.data.map(n => `⚠️ ${n.message}`).join('\n');
-                } else {
-                    el.textContent = 'No notices';
-                }
-            } catch (e) {
-                console.error('Race control error:', e);
+        function switchSource() {
+            const select = document.getElementById('sourceSelect');
+            const custom = document.getElementById('customSource');
+            let url = select.value;
+
+            if (url === 'custom') {
+                url = custom.value || 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
             }
+            initPlayer(url);
+            logWS(`[INFO] Switched source: ${url}`);
         }
 
+        // ============================================
+        // 4. AI COMMENTARY
+        // ============================================
         async function fetchCommentary() {
-            const el = document.getElementById('commentary');
+            const el = document.getElementById('commentaryText');
+            if (!el) return;
             el.textContent = '⏳ Generating...';
             try {
                 const res = await fetch('/api/ai/comment');
@@ -284,11 +780,65 @@
             }
         }
 
-        // === Запуск ===
+        function toggleAI() {
+            const log = document.getElementById('aiLog');
+            if (log) log.textContent = 'AI: Toggled';
+        }
+
+        // ============================================
+        // 5. NAVIGATION
+        // ============================================
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+
+                // Active class
+                document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show/hide admin
+                const adminPanel = document.getElementById('adminPanel');
+                const dashboard = document.getElementById('dashboard');
+                if (page === 'admin') {
+                    adminPanel.classList.add('active');
+                    dashboard.style.display = 'none';
+                } else {
+                    adminPanel.classList.remove('active');
+                    dashboard.style.display = 'grid';
+                }
+            });
+        });
+
+        // ============================================
+        // 6. INIT
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            connectWebSocket();
-            fetchRaceControl();
-            setInterval(fetchRaceControl, 10000);
+            connectWS();
+            initPlayer('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+
+            // Автообновление телеметрии через API
+            setInterval(() => {
+                fetch('/api/telemetry')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'ok' && data.data) {
+                            updateTelemetry(data.data);
+                        }
+                    })
+                    .catch(() => {});
+            }, 5000);
+
+            // Обновление сессии
+            fetch('/api/session')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'ok' && data.data) {
+                        document.getElementById('sessionName').textContent =
+                            `${data.data.meeting_name || 'GP'} ${data.data.year || ''}`;
+                    }
+                })
+                .catch(() => {});
         });
     </script>
 </body>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liberty Formula</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a12;
+            color: #f0f0f5;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #14141e;
+            border-radius: 12px;
+            border: 1px solid #2a2a3a;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff2d2d;
+        }
+        .logo span {
+            color: #f0f0f5;
+        }
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #8a8a9a;
+        }
+        .status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: pulse 1.5s infinite;
+        }
+        .status .dot.off {
+            background: #ff1744;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 20px;
+        }
+        .card {
+            background: #14141e;
+            border-radius: 12px;
+            border: 1px solid #2a2a3a;
+            padding: 20px;
+        }
+        .card h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #6a6a7a;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+
+        #telemetry {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #d0d0dd;
+            white-space: pre-wrap;
+            min-height: 300px;
+        }
+
+        .race-control {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #ffb74d;
+            min-height: 100px;
+        }
+
+        .comment-box {
+            margin-top: 12px;
+            padding: 16px;
+            background: #1a1a28;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e0e0ed;
+            min-height: 80px;
+        }
+        .comment-box .label {
+            font-size: 11px;
+            color: #6a6a7a;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            background: #ff2d2d;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+        }
+        .btn:hover {
+            background: #e02020;
+            transform: scale(1.02);
+        }
+        .btn.secondary {
+            background: #2a2a3a;
+        }
+        .btn.secondary:hover {
+            background: #3a3a4a;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">LIBERTY<span>FORMULA</span></div>
+            <div class="status">
+                <span class="dot" id="wsDot"></span>
+                <span id="wsStatus">Connecting...</span>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid">
+            <!-- Telemetry -->
+            <div class="card">
+                <h3>📡 Live Telemetry</h3>
+                <pre id="telemetry">Waiting for data...</pre>
+            </div>
+
+            <!-- Right column -->
+            <div>
+                <!-- Race Control -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3>🚦 FIA Race Control</h3>
+                    <div class="race-control" id="raceControl">No notices yet.</div>
+                </div>
+
+                <!-- AI Commentary -->
+                <div class="card">
+                    <h3>🧠 AI Commentary</h3>
+                    <div class="comment-box" id="commentBox">
+                        <div class="label">💬 Live Analysis</div>
+                        <span id="commentary">Press "Generate" to get AI analysis</span>
+                    </div>
+                    <button class="btn" onclick="fetchCommentary()">Generate Commentary</button>
+                    <button class="btn secondary" onclick="fetchTelemetry()" style="margin-left: 10px;">Refresh Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === WebSocket ===
+        let ws = null;
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = function() {
+                document.getElementById('wsStatus').textContent = 'Online';
+                document.getElementById('wsDot').className = 'dot';
+            };
+
+            ws.onmessage = function(event) {
+                try {
+                    const msg = JSON.parse(event.data);
+                    if (msg.type === 'telemetry') {
+                        displayTelemetry(msg);
+                    }
+                } catch (e) {
+                    console.error('WebSocket error:', e);
+                }
+            };
+
+            ws.onclose = function() {
+                document.getElementById('wsStatus').textContent = 'Offline';
+                document.getElementById('wsDot').className = 'dot off';
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+
+        function displayTelemetry(data) {
+            const el = document.getElementById('telemetry');
+            const positions = data.data?.positions || [];
+
+            if (positions.length === 0) {
+                el.textContent = 'No positions available';
+                return;
+            }
+
+            const sorted = positions.sort((a, b) => a.position - b.position);
+            let text = `🏁 ${data.session?.name || 'Unknown GP'} — ${data.session?.country || ''}\n`;
+            text += `🕐 ${new Date(data.timestamp).toLocaleTimeString()}\n`;
+            text += '─'.repeat(30) + '\n';
+            text += 'POS  #  DRIVER       GAP\n';
+            text += '─'.repeat(30) + '\n';
+
+            for (const p of sorted.slice(0, 12)) {
+                const driver = data.data?.drivers?.find(d => d.driver_number === p.driver_number);
+                const name = driver ? driver.full_name?.split(' ').pop() : '???';
+                const gap = p.gap_to_leader !== undefined ? `+${p.gap_to_leader.toFixed(2)}s` : 'INTERVAL';
+                text += `${String(p.position).padStart(3)}  #${String(p.driver_number).padStart(2)}  ${name.padEnd(10)}  ${gap}\n`;
+            }
+            el.textContent = text;
+        }
+
+        async function fetchTelemetry() {
+            try {
+                const res = await fetch('/api/telemetry');
+                const data = await res.json();
+                if (data.status === 'ok' && data.data) {
+                    displayTelemetry(data.data);
+                }
+            } catch (e) {
+                console.error('Fetch error:', e);
+            }
+        }
+
+        async function fetchRaceControl() {
+            try {
+                const res = await fetch('/api/racecontrol');
+                const data = await res.json();
+                const el = document.getElementById('raceControl');
+                if (data.status === 'ok' && data.data.length > 0) {
+                    el.textContent = data.data.map(n => `⚠️ ${n.message}`).join('\n');
+                } else {
+                    el.textContent = 'No notices';
+                }
+            } catch (e) {
+                console.error('Race control error:', e);
+            }
+        }
+
+        async function fetchCommentary() {
+            const el = document.getElementById('commentary');
+            el.textContent = '⏳ Generating...';
+            try {
+                const res = await fetch('/api/ai/comment');
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    el.textContent = data.commentary;
+                } else {
+                    el.textContent = `❌ ${data.message}`;
+                }
+            } catch (e) {
+                el.textContent = '❌ Failed to generate commentary';
+            }
+        }
+
+        // === Запуск ===
+        document.addEventListener('DOMContentLoaded', function() {
+            connectWebSocket();
+            fetchRaceControl();
+            setInterval(fetchRaceControl, 10000);
+        });
+    </script>
+</body>
+</html>

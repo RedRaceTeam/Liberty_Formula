@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,18 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- Plyr CSS (video player) -->
+    <!-- Plyr CSS -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
     <style>
         /* ============================================
-               RESET & BASE
-            ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+           RESET & BASE
+        ============================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: #0B0B12;
@@ -33,45 +29,43 @@
             display: flex;
         }
 
-        /* ============================================
-               SCROLLBAR
-            ============================================ */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #14141E; }
         ::-webkit-scrollbar-thumb { background: #E50914; border-radius: 4px; }
 
         /* ============================================
-               SIDEBAR
-            ============================================ */
+           SIDEBAR
+        ============================================ */
         .sidebar {
-            width: 72px;
+            width: 88px;
             background: #0F0F18;
             border-right: 1px solid #1E1E2E;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 0;
+            padding: 24px 0 20px 0;
             flex-shrink: 0;
             z-index: 10;
         }
 
         .sidebar .logo {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: #E50914;
-            margin-bottom: 32px;
+            margin-bottom: 36px;
             letter-spacing: -1px;
+            text-align: center;
+            line-height: 1.2;
         }
-
-        .sidebar .logo span {
-            color: #F0F0F5;
-        }
+        .sidebar .logo span { color: #F0F0F5; }
 
         .sidebar nav {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             flex: 1;
+            width: 100%;
+            align-items: center;
         }
 
         .sidebar nav a {
@@ -79,51 +73,67 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
             color: #6A6A7A;
             text-decoration: none;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             transition: 0.2s;
-            gap: 2px;
+            gap: 4px;
+            cursor: pointer;
         }
-
-        .sidebar nav a .icon {
-            font-size: 20px;
-            line-height: 1;
-        }
-
-        .sidebar nav a:hover {
-            background: #1A1A2A;
-            color: #F0F0F5;
-        }
-
-        .sidebar nav a.active {
-            background: #E50914;
-            color: #fff;
-        }
+        .sidebar nav a .icon { font-size: 24px; line-height: 1; }
+        .sidebar nav a:hover { background: #1A1A2A; color: #F0F0F5; }
+        .sidebar nav a.active { background: #E50914; color: #fff; }
 
         .sidebar .bottom {
             margin-top: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 0;
+            border-top: 1px solid #1E1E2E;
         }
 
         .sidebar .bottom .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #4CAF50;
             animation: pulse 1.5s infinite;
         }
-
         .sidebar .bottom .status-dot.off {
             background: #E50914;
             animation: none;
+        }
+
+        .sidebar .bottom .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .sidebar .bottom .social-links a {
+            color: #6A6A7A;
+            font-size: 20px;
+            text-decoration: none;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #14141E;
+            border: 1px solid #2A2A3A;
+        }
+        .sidebar .bottom .social-links a:hover {
+            color: #F0F0F5;
+            background: #E50914;
+            border-color: #E50914;
         }
 
         @keyframes pulse {
@@ -132,71 +142,96 @@
         }
 
         /* ============================================
-               MAIN CONTENT
-            ============================================ */
+           MAIN CONTENT
+        ============================================ */
         .main {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 20px 24px 24px 24px;
+            padding: 24px 32px 32px 32px;
         }
 
-        /* Header */
         .main-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .main-header h1 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
-
         .main-header h1 small {
             font-weight: 400;
             color: #6A6A7A;
-            font-size: 14px;
-            margin-left: 8px;
+            font-size: 15px;
+            margin-left: 10px;
         }
 
         .main-header .actions {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .main-header .actions .badge {
             background: #1A1A2A;
+            padding: 6px 16px;
+            border-radius: 24px;
+            font-size: 13px;
+            color: #8A8A9A;
+            border: 1px solid #2A2A3A;
+            white-space: nowrap;
+        }
+        .main-header .actions .badge .live { color: #E50914; font-weight: 700; }
+
+        /* Переключатель языка */
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: #1A1A2A;
+            border-radius: 24px;
+            border: 1px solid #2A2A3A;
+            padding: 3px;
+        }
+        .lang-switch button {
+            background: transparent;
+            border: none;
+            color: #6A6A7A;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
-            color: #8A8A9A;
-            border: 1px solid #2A2A3A;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
         }
-
-        .main-header .actions .badge .live {
-            color: #E50914;
-            font-weight: 700;
+        .lang-switch button.active {
+            background: #E50914;
+            color: #fff;
+        }
+        .lang-switch button:hover:not(.active) {
+            color: #F0F0F5;
         }
 
         /* ============================================
-               DASHBOARD GRID
-            ============================================ */
+           DASHBOARD GRID
+        ============================================ */
         .dashboard {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            grid-template-rows: auto auto auto;
-            gap: 16px;
+            grid-template-columns: 2.2fr 1.2fr;
+            grid-template-rows: auto auto;
+            gap: 20px;
             flex: 1;
             min-height: 0;
         }
 
-        /* Видео плеер — занимает 2 колонки по ширине */
         .video-widget {
             grid-column: 1 / 2;
             grid-row: 1 / 2;
@@ -208,18 +243,9 @@
             aspect-ratio: 16 / 9;
             min-height: 200px;
         }
+        .video-widget video { width: 100%; height: 100%; object-fit: cover; }
+        .video-widget .plyr { height: 100%; }
 
-        .video-widget video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-widget .plyr {
-            height: 100%;
-        }
-
-        /* Карта трассы */
         .map-widget {
             grid-column: 1 / 2;
             grid-row: 2 / 3;
@@ -227,11 +253,10 @@
             border-radius: 16px;
             border: 1px solid #1E1E2E;
             padding: 16px;
-            min-height: 160px;
+            min-height: 180px;
             display: flex;
             flex-direction: column;
         }
-
         .map-widget .widget-header {
             display: flex;
             justify-content: space-between;
@@ -241,7 +266,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .map-widget svg {
             width: 100%;
             height: auto;
@@ -250,13 +274,12 @@
             border-radius: 8px;
         }
 
-        /* Правая колонка */
         .right-col {
             grid-column: 2 / 3;
             grid-row: 1 / 3;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
             min-height: 0;
         }
 
@@ -270,7 +293,6 @@
             display: flex;
             flex-direction: column;
         }
-
         .right-col .widget .widget-header {
             display: flex;
             justify-content: space-between;
@@ -281,7 +303,6 @@
             letter-spacing: 0.5px;
             flex-shrink: 0;
         }
-
         .right-col .widget .widget-body {
             flex: 1;
             overflow-y: auto;
@@ -290,34 +311,17 @@
             line-height: 1.6;
             color: #D0D0DD;
         }
-
         .right-col .widget .widget-body .pos-row {
             display: flex;
             justify-content: space-between;
             padding: 2px 0;
             border-bottom: 1px solid #1A1A2A;
         }
+        .right-col .widget .widget-body .pos-row .pos { color: #6A6A7A; width: 24px; }
+        .right-col .widget .widget-body .pos-row .driver { flex: 1; margin-left: 8px; }
+        .right-col .widget .widget-body .pos-row .gap { color: #8A8A9A; }
 
-        .right-col .widget .widget-body .pos-row .pos {
-            color: #6A6A7A;
-            width: 24px;
-        }
-
-        .right-col .widget .widget-body .pos-row .driver {
-            flex: 1;
-            margin-left: 8px;
-        }
-
-        .right-col .widget .widget-body .pos-row .gap {
-            color: #8A8A9A;
-        }
-
-        .right-col .widget .ai-body {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #E0E0ED;
-        }
-
+        .right-col .widget .ai-body { font-size: 14px; line-height: 1.6; color: #E0E0ED; }
         .right-col .widget .ai-body .label {
             font-size: 11px;
             color: #6A6A7A;
@@ -325,10 +329,22 @@
             letter-spacing: 0.5px;
             margin-bottom: 6px;
         }
+        .right-col .widget .ai-body .btn {
+            margin-top: 12px;
+            background: #E50914;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .right-col .widget .ai-body .btn:hover { background: #C40812; }
 
         /* ============================================
-               АДМИН-ПАНЕЛЬ (скрыта по умолчанию)
-            ============================================ */
+           АДМИН-ПАНЕЛЬ
+        ============================================ */
         .admin-panel {
             display: none;
             grid-column: 1 / 3;
@@ -341,36 +357,25 @@
             gap: 16px;
             overflow-y: auto;
         }
-
-        .admin-panel.active {
-            display: flex;
-        }
-
-        .admin-panel h2 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
+        .admin-panel.active { display: flex; }
+        .admin-panel h2 { font-size: 18px; margin-bottom: 8px; }
         .admin-panel .admin-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-
         .admin-panel .admin-card {
             background: #14141E;
             border: 1px solid #2A2A3A;
             border-radius: 12px;
             padding: 16px;
         }
-
         .admin-panel .admin-card h4 {
             font-size: 13px;
             color: #6A6A7A;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
-
         .admin-panel .admin-card input,
         .admin-panel .admin-card select {
             width: 100%;
@@ -382,7 +387,6 @@
             font-size: 13px;
             margin-bottom: 8px;
         }
-
         .admin-panel .admin-card .btn {
             background: #E50914;
             color: #fff;
@@ -393,36 +397,22 @@
             cursor: pointer;
             font-size: 13px;
             transition: 0.2s;
+            margin-right: 6px;
         }
-
-        .admin-panel .admin-card .btn:hover {
-            background: #C40812;
-        }
-
-        .admin-panel .admin-card .btn.secondary {
-            background: #2A2A3A;
-        }
-
-        .admin-panel .admin-card .btn.secondary:hover {
-            background: #3A3A4A;
-        }
+        .admin-panel .admin-card .btn:hover { background: #C40812; }
+        .admin-panel .admin-card .btn.secondary { background: #2A2A3A; }
+        .admin-panel .admin-card .btn.secondary:hover { background: #3A3A4A; }
 
         /* ============================================
-               RESPONSIVE
-            ============================================ */
+           АДАПТИВ
+        ============================================ */
         @media (max-width: 1024px) {
             .dashboard {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto;
             }
-            .video-widget {
-                grid-column: 1;
-                grid-row: auto;
-            }
-            .map-widget {
-                grid-column: 1;
-                grid-row: auto;
-            }
+            .video-widget { grid-column: 1; grid-row: auto; }
+            .map-widget { grid-column: 1; grid-row: auto; }
             .right-col {
                 grid-column: 1;
                 grid-row: auto;
@@ -430,37 +420,21 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 16px;
             }
-            .admin-panel {
-                grid-column: 1;
-                grid-row: auto;
-            }
-            .admin-panel .admin-grid {
-                grid-template-columns: 1fr;
-            }
+            .admin-panel { grid-column: 1; grid-row: auto; }
+            .admin-panel .admin-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
-            .sidebar {
-                width: 56px;
-                padding: 12px 0;
-            }
-            .sidebar .logo {
-                font-size: 16px;
-            }
-            .sidebar nav a {
-                width: 40px;
-                height: 40px;
-                font-size: 8px;
-            }
-            .sidebar nav a .icon {
-                font-size: 16px;
-            }
-            .main {
-                padding: 12px;
-            }
-            .right-col {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { width: 64px; padding: 12px 0; }
+            .sidebar .logo { font-size: 18px; }
+            .sidebar nav a { width: 48px; height: 48px; font-size: 9px; }
+            .sidebar nav a .icon { font-size: 18px; }
+            .sidebar .bottom .social-links a { width: 28px; height: 28px; font-size: 16px; }
+            .main { padding: 12px; }
+            .right-col { grid-template-columns: 1fr; }
+            .main-header h1 { font-size: 18px; }
+            .main-header .actions .badge { font-size: 11px; padding: 4px 12px; }
+            .lang-switch button { font-size: 10px; padding: 2px 10px; }
         }
     </style>
 </head>
@@ -472,30 +446,35 @@
     <aside class="sidebar">
         <div class="logo">L<span>F</span></div>
         <nav>
-            <a href="#" class="active" data-page="dashboard">
+            <a href="#" class="active" data-page="dashboard" data-key="nav_main">
                 <span class="icon">🏠</span>
-                <span>Main</span>
+                <span data-key="nav_main">Главная</span>
             </a>
-            <a href="#" data-page="dashboard">
+            <a href="#" data-page="dashboard" data-key="nav_data">
                 <span class="icon">📊</span>
-                <span>Data</span>
+                <span data-key="nav_data">Данные</span>
             </a>
-            <a href="#" data-page="dashboard">
+            <a href="#" data-page="dashboard" data-key="nav_video">
                 <span class="icon">🎥</span>
-                <span>Video</span>
+                <span data-key="nav_video">Видео</span>
             </a>
-            <a href="#" data-page="dashboard">
+            <a href="#" data-page="dashboard" data-key="nav_track">
                 <span class="icon">🗺️</span>
-                <span>Track</span>
+                <span data-key="nav_track">Трасса</span>
             </a>
-            <a href="#" data-page="admin">
+            <a href="#" data-page="admin" data-key="nav_admin">
                 <span class="icon">⚙️</span>
-                <span>Admin</span>
+                <span data-key="nav_admin">Админ</span>
             </a>
         </nav>
         <div class="bottom">
             <div class="status-dot" id="wsDot"></div>
-            <span style="font-size:8px;color:#6A6A7A;" id="wsStatus">Connecting</span>
+            <span style="font-size:8px;color:#6A6A7A;" id="wsStatus" data-key="status_connecting">Подключение...</span>
+            <div class="social-links">
+                <a href="https://t.me/P4Devl" target="_blank" title="Telegram">📱</a>
+                <a href="https://github.com/RedRaceTeam" target="_blank" title="Open Source">🐙</a>
+                <a href="https://www.donationalerts.com/r/kimi_redrace" target="_blank" title="Donate">❤️</a>
+            </div>
         </div>
     </aside>
 
@@ -504,12 +483,15 @@
     ============================================ -->
     <div class="main">
 
-        <!-- Header -->
         <header class="main-header">
-            <h1>Liberty Formula <small>Neue Ära</small></h1>
+            <h1>Liberty Formula <small data-key="title_sub">Neue Ära</small></h1>
             <div class="actions">
-                <span class="badge"><span class="live">●</span> Live</span>
-                <span class="badge" id="sessionName">Loading session...</span>
+                <span class="badge"><span class="live">●</span> <span data-key="status_live">Live</span></span>
+                <span class="badge" id="sessionName" data-key="loading_session">Загрузка сессии...</span>
+                <div class="lang-switch">
+                    <button class="active" data-lang="ru" onclick="setLang('ru')">RU</button>
+                    <button data-lang="en" onclick="setLang('en')">EN</button>
+                </div>
             </div>
         </header>
 
@@ -526,16 +508,13 @@
             <!-- Карта трассы -->
             <div class="map-widget">
                 <div class="widget-header">
-                    <span>🗺️ Track Map</span>
-                    <span id="mapStatus">Live positions</span>
+                    <span data-key="map_title">🗺️ Карта трассы</span>
+                    <span id="mapStatus" data-key="map_status">Позиции в реальном времени</span>
                 </div>
                 <svg viewBox="0 0 800 300" id="trackMap">
-                    <!-- Трасса (упрощённый контур) -->
                     <path d="M100,250 C100,250 150,50 300,50 C450,50 500,150 650,150 C750,150 750,250 650,250 C550,250 500,200 400,200 C300,200 250,150 200,150 C150,150 100,250 100,250Z"
-                    stroke="#2A2A3A" stroke-width="4" fill="none" />
-                    <!-- Старт/финиш -->
+                          stroke="#2A2A3A" stroke-width="4" fill="none" />
                     <line x1="100" y1="250" x2="140" y2="250" stroke="#E50914" stroke-width="6" />
-                    <!-- Позиции болидов -->
                     <circle cx="280" cy="120" r="8" fill="#E50914" id="car1" />
                     <circle cx="450" cy="200" r="8" fill="#FFB74D" id="car2" />
                     <circle cx="600" cy="180" r="8" fill="#4CAF50" id="car3" />
@@ -545,71 +524,67 @@
             <!-- Правая колонка -->
             <div class="right-col">
 
-                <!-- Телеметрия (позиции) -->
                 <div class="widget">
                     <div class="widget-header">
-                        <span>📡 Live Telemetry</span>
+                        <span data-key="telemetry_title">📡 Телеметрия в реальном времени</span>
                         <span id="telemetryTime">—</span>
                     </div>
                     <div class="widget-body" id="telemetryBody">
-                        <div class="pos-row"><span class="pos">1</span><span class="driver">PAL</span><span class="gap">LEADER</span></div>
-                        <div class="pos-row"><span class="pos">2</span><span class="driver">KIR</span><span class="gap">+1.2s</span></div>
-                        <div class="pos-row"><span class="pos">3</span><span class="driver">MAL</span><span class="gap">+2.8s</span></div>
-                        <div class="pos-row"><span class="pos">4</span><span class="driver">LUN</span><span class="gap">+4.1s</span></div>
-                        <div class="pos-row"><span class="pos">5</span><span class="driver">OWA</span><span class="gap">+5.6s</span></div>
+                        <div class="pos-row"><span class="pos">1</span><span class="driver">PAL</span><span class="gap">ЛИДЕР</span></div>
+                        <div class="pos-row"><span class="pos">2</span><span class="driver">KIR</span><span class="gap">+1.2с</span></div>
+                        <div class="pos-row"><span class="pos">3</span><span class="driver">MAL</span><span class="gap">+2.8с</span></div>
+                        <div class="pos-row"><span class="pos">4</span><span class="driver">LUN</span><span class="gap">+4.1с</span></div>
+                        <div class="pos-row"><span class="pos">5</span><span class="driver">OWA</span><span class="gap">+5.6с</span></div>
                     </div>
                 </div>
 
-                <!-- AI Commentary -->
                 <div class="widget">
                     <div class="widget-header">
-                        <span>🧠 Nico · AI Commentary</span>
-                        <span id="aiStatus">Ready</span>
+                        <span data-key="ai_title">🧠 Нико · AI Комментарий</span>
+                        <span id="aiStatus" data-key="ai_ready">Готов</span>
                     </div>
                     <div class="widget-body ai-body" id="commentaryBody">
-                        <div class="label">💬 Live Analysis</div>
-                        <span id="commentaryText">Press "Generate" to get AI analysis</span>
-                        <button class="btn" style="margin-top:12px;background:#E50914;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-weight:600;cursor:pointer;" onclick="fetchCommentary()">Generate</button>
+                        <div class="label" data-key="ai_label">💬 Анализ в реальном времени</div>
+                        <span id="commentaryText" data-key="ai_placeholder">Нажми «Сгенерировать» для получения AI-анализа</span>
+                        <button class="btn" onclick="fetchCommentary()" data-key="ai_generate">Сгенерировать</button>
                     </div>
                 </div>
 
             </div>
 
             <!-- ============================================
-            АДМИН-ПАНЕЛЬ (скрыта)
+            АДМИН-ПАНЕЛЬ
             ============================================ -->
             <div class="admin-panel" id="adminPanel">
-                <h2>⚙️ Admin Panel</h2>
-                <p style="color:#6A6A7A;font-size:13px;">Управление источниками, AI, WebSocket и логами.</p>
+                <h2 data-key="admin_title">⚙️ Админ-панель</h2>
+                <p style="color:#6A6A7A;font-size:13px;" data-key="admin_desc">Управление источниками, AI, WebSocket и логами.</p>
 
                 <div class="admin-grid">
-                    <!-- Источники видео -->
                     <div class="admin-card">
-                        <h4>🎥 Video Sources</h4>
+                        <h4 data-key="admin_sources">🎥 Источники видео</h4>
                         <select id="sourceSelect">
-                            <option value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8">Test Stream (Mux)</option>
-                            <option value="https://cdn.jwplayer.com/manifests/yp34SRmf.m3u8">JW Player Test</option>
-                            <option value="custom">Custom URL</option>
+                            <option value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" data-key="admin_source_test">Тестовый поток (Mux)</option>
+                            <option value="https://cdn.jwplayer.com/manifests/yp34SRmf.m3u8" data-key="admin_source_jw">JW Player Test</option>
+                            <option value="custom" data-key="admin_source_custom">Свой URL</option>
                         </select>
-                        <input type="text" id="customSource" placeholder="Enter custom URL" style="display:none;"/>
-                        <button class="btn" onclick="switchSource()">Apply</button>
-                        <button class="btn secondary" onclick="fetchTelemetry()">Refresh Telemetry</button>
+                        <input type="text" id="customSource" placeholder="Введите свой URL" style="display:none;"/>
+                        <button class="btn" onclick="switchSource()" data-key="admin_apply">Применить</button>
+                        <button class="btn secondary" onclick="fetchTelemetry()" data-key="admin_refresh">Обновить телеметрию</button>
                     </div>
 
-                    <!-- AI & Logs -->
                     <div class="admin-card">
-                        <h4>🧠 AI Settings</h4>
-                        <button class="btn" onclick="fetchCommentary()">Generate Commentary</button>
-                        <button class="btn secondary" style="margin-left:8px;" onclick="toggleAI()">Toggle AI</button>
+                        <h4 data-key="admin_ai">🧠 Настройки AI</h4>
+                        <button class="btn" onclick="fetchCommentary()" data-key="admin_generate">Сгенерировать комментарий</button>
+                        <button class="btn secondary" style="margin-left:8px;" onclick="toggleAI()" data-key="admin_toggle">Вкл/Выкл AI</button>
                         <div style="margin-top:12px;font-size:12px;color:#6A6A7A;">
-                            <span id="aiLog">AI: Online</span>
+                            <span id="aiLog" data-key="admin_ai_online">AI: Онлайн</span>
                         </div>
                     </div>
 
                     <div class="admin-card" style="grid-column:1/3;">
-                        <h4>📋 WebSocket Logs</h4>
-                        <div id="wsLogs" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A9A;max-height:120px;overflow-y:auto;background:#0B0B12;padding:8px;border-radius:8px;">
-                            [INFO] WebSocket connecting...
+                        <h4 data-key="admin_logs">📋 Логи WebSocket</h4>
+                        <div id="wsLogs" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8A8A9A;max-height:120px;overflow-y:auto;background:#0B0B12;padding:8px;border-radius:8px;" data-key="admin_log_placeholder">
+                            [INFO] Подключение к WebSocket...
                         </div>
                     </div>
                 </div>
@@ -618,18 +593,103 @@
         </div><!-- /dashboard -->
     </div><!-- /main -->
 
-
     <!-- ============================================
     SCRIPTS
     ============================================ -->
-
-    <!-- Plyr + hls.js -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.17/dist/hls.min.js"></script>
 
     <script>
         // ============================================
-        // 1. WEBHOOK / WEBSOCKET
+        // ПЕРЕВОД
+        // ============================================
+        const translations = {
+            ru: {
+                nav_main: 'Главная', nav_data: 'Данные', nav_video: 'Видео', nav_track: 'Трасса', nav_admin: 'Админ',
+                title_sub: 'Neue Ära',
+                status_live: 'Live',
+                loading_session: 'Загрузка сессии...',
+                status_connecting: 'Подключение...',
+                map_title: '🗺️ Карта трассы',
+                map_status: 'Позиции в реальном времени',
+                telemetry_title: '📡 Телеметрия в реальном времени',
+                ai_title: '🧠 Нико · AI Комментарий',
+                ai_ready: 'Готов',
+                ai_label: '💬 Анализ в реальном времени',
+                ai_placeholder: 'Нажми «Сгенерировать» для получения AI-анализа',
+                ai_generate: 'Сгенерировать',
+                admin_title: '⚙️ Админ-панель',
+                admin_desc: 'Управление источниками, AI, WebSocket и логами.',
+                admin_sources: '🎥 Источники видео',
+                admin_source_test: 'Тестовый поток (Mux)',
+                admin_source_jw: 'JW Player Test',
+                admin_source_custom: 'Свой URL',
+                admin_apply: 'Применить',
+                admin_refresh: 'Обновить телеметрию',
+                admin_ai: '🧠 Настройки AI',
+                admin_generate: 'Сгенерировать комментарий',
+                admin_toggle: 'Вкл/Выкл AI',
+                admin_ai_online: 'AI: Онлайн',
+                admin_logs: '📋 Логи WebSocket',
+                admin_log_placeholder: '[INFO] Подключение к WebSocket...'
+            },
+            en: {
+                nav_main: 'Main', nav_data: 'Data', nav_video: 'Video', nav_track: 'Track', nav_admin: 'Admin',
+                title_sub: 'Neue Ära',
+                status_live: 'Live',
+                loading_session: 'Loading session...',
+                status_connecting: 'Connecting...',
+                map_title: '🗺️ Track Map',
+                map_status: 'Live positions',
+                telemetry_title: '📡 Live Telemetry',
+                ai_title: '🧠 Nico · AI Commentary',
+                ai_ready: 'Ready',
+                ai_label: '💬 Live Analysis',
+                ai_placeholder: 'Press "Generate" to get AI analysis',
+                ai_generate: 'Generate',
+                admin_title: '⚙️ Admin Panel',
+                admin_desc: 'Manage sources, AI, WebSocket and logs.',
+                admin_sources: '🎥 Video Sources',
+                admin_source_test: 'Test Stream (Mux)',
+                admin_source_jw: 'JW Player Test',
+                admin_source_custom: 'Custom URL',
+                admin_apply: 'Apply',
+                admin_refresh: 'Refresh Telemetry',
+                admin_ai: '🧠 AI Settings',
+                admin_generate: 'Generate Commentary',
+                admin_toggle: 'Toggle AI',
+                admin_ai_online: 'AI: Online',
+                admin_logs: '📋 WebSocket Logs',
+                admin_log_placeholder: '[INFO] Connecting to WebSocket...'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.dataset.key;
+                if (translations[lang] && translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+            // Обновляем select options
+            document.querySelectorAll('#sourceSelect option').forEach(opt => {
+                const key = opt.dataset.key;
+                if (key && translations[lang] && translations[lang][key]) {
+                    opt.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // ============================================
+        // WEBSOCKET
         // ============================================
         let ws = null;
         const wsDot = document.getElementById('wsDot');
@@ -639,34 +699,24 @@
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             const url = `${protocol}//${window.location.host}/ws`;
             ws = new WebSocket(url);
-
             ws.onopen = () => {
                 wsDot.className = 'status-dot';
-                wsStatus.textContent = 'Online';
+                wsStatus.textContent = currentLang === 'ru' ? 'Онлайн' : 'Online';
                 logWS('[INFO] Connected');
             };
-
             ws.onmessage = (e) => {
                 try {
                     const msg = JSON.parse(e.data);
-                    if (msg.type === 'telemetry') {
-                        updateTelemetry(msg);
-                    }
-                } catch (err) {
-                    logWS('[ERROR] ' + err.message);
-                }
+                    if (msg.type === 'telemetry') updateTelemetry(msg);
+                } catch (err) { logWS('[ERROR] ' + err.message); }
             };
-
             ws.onclose = () => {
                 wsDot.className = 'status-dot off';
-                wsStatus.textContent = 'Offline';
+                wsStatus.textContent = currentLang === 'ru' ? 'Офлайн' : 'Offline';
                 logWS('[WARN] Disconnected, retrying...');
                 setTimeout(connectWS, 3000);
             };
-
-            ws.onerror = (err) => {
-                logWS('[ERROR] WebSocket error');
-            };
+            ws.onerror = () => logWS('[ERROR] WebSocket error');
         }
 
         function logWS(msg) {
@@ -675,41 +725,32 @@
         }
 
         // ============================================
-        // 2. TELEMETRY
+        // TELEMETRY
         // ============================================
         function updateTelemetry(data) {
             const body = document.getElementById('telemetryBody');
             const timeEl = document.getElementById('telemetryTime');
             if (!body) return;
-
             const positions = data.data?.positions || [];
             if (positions.length === 0) {
-                body.innerHTML = '<div style="color:#6A6A7A;">No positions available</div>';
+                body.innerHTML = '<div style="color:#6A6A7A;">' + (currentLang === 'ru' ? 'Нет данных о позициях' : 'No positions available') + '</div>';
                 return;
             }
-
             const sorted = positions.sort((a, b) => a.position - b.position);
             let html = '';
             for (const p of sorted.slice(0, 10)) {
                 const driver = data.data?.drivers?.find(d => d.driver_number === p.driver_number);
                 const name = driver ? driver.full_name?.split(' ').pop() : '???';
-                const gap = p.gap_to_leader !== undefined ? `+${p.gap_to_leader.toFixed(1)}s` : '—';
+                const gap = p.gap_to_leader !== undefined ? `+${p.gap_to_leader.toFixed(1)}с` : '—';
                 html += `<div class="pos-row"><span class="pos">${p.position}</span><span class="driver">${name}</span><span class="gap">${gap}</span></div>`;
             }
             body.innerHTML = html;
-
-            if (data.timestamp) {
-                timeEl.textContent = new Date(data.timestamp).toLocaleTimeString();
-            }
-
-            // Обновляем карту
+            if (data.timestamp) timeEl.textContent = new Date(data.timestamp).toLocaleTimeString();
             updateMap(sorted);
         }
 
         function updateMap(positions) {
             const cars = document.querySelectorAll('#trackMap circle');
-            // В реальности здесь нужно двигать точки по трассе
-            // Пока просто пример
             cars.forEach((car, i) => {
                 if (positions[i]) {
                     const x = 200 + (i * 150) % 600;
@@ -721,19 +762,14 @@
         }
 
         // ============================================
-        // 3. VIDEO PLAYER
+        // VIDEO
         // ============================================
-        let player = null;
-        let hls = null;
-
+        let player = null, hls = null;
         function initPlayer(url) {
             const video = document.getElementById('player');
             if (!video) return;
-
-            // Destroy old
             if (player) player.destroy();
             if (hls) hls.destroy();
-
             if (Hls.isSupported()) {
                 hls = new Hls();
                 hls.loadSource(url);
@@ -743,61 +779,51 @@
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
                 player = new Plyr(video);
-            } else {
-                console.warn('HLS not supported');
             }
         }
 
         function switchSource() {
             const select = document.getElementById('sourceSelect');
             const custom = document.getElementById('customSource');
-            let url = select.value;
-
-            if (url === 'custom') {
-                url = custom.value || 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-            }
+            let url = select.value === 'custom' ? custom.value || 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' : select.value;
             initPlayer(url);
             logWS(`[INFO] Switched source: ${url}`);
         }
 
+        document.getElementById('sourceSelect')?.addEventListener('change', function() {
+            document.getElementById('customSource').style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+
         // ============================================
-        // 4. AI COMMENTARY
+        // AI
         // ============================================
         async function fetchCommentary() {
             const el = document.getElementById('commentaryText');
             if (!el) return;
-            el.textContent = '⏳ Generating...';
+            el.textContent = '⏳ ' + (currentLang === 'ru' ? 'Генерация...' : 'Generating...');
             try {
                 const res = await fetch('/api/ai/comment');
                 const data = await res.json();
-                if (data.status === 'ok') {
-                    el.textContent = data.commentary;
-                } else {
-                    el.textContent = `❌ ${data.message}`;
-                }
+                el.textContent = data.status === 'ok' ? data.commentary : `❌ ${data.message}`;
             } catch (e) {
-                el.textContent = '❌ Failed to generate commentary';
+                el.textContent = '❌ ' + (currentLang === 'ru' ? 'Ошибка генерации' : 'Generation failed');
             }
         }
 
         function toggleAI() {
             const log = document.getElementById('aiLog');
-            if (log) log.textContent = 'AI: Toggled';
+            if (log) log.textContent = currentLang === 'ru' ? 'AI: Переключён' : 'AI: Toggled';
         }
 
         // ============================================
-        // 5. NAVIGATION
+        // NAVIGATION
         // ============================================
         document.querySelectorAll('.sidebar nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const page = this.dataset.page;
-
-                // Active class
                 document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
                 this.classList.add('active');
-
-                // Show/hide admin
                 const adminPanel = document.getElementById('adminPanel');
                 const dashboard = document.getElementById('dashboard');
                 if (page === 'admin') {
@@ -811,25 +837,18 @@
         });
 
         // ============================================
-        // 6. INIT
+        // INIT
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
+            setLang('ru');
             connectWS();
             initPlayer('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
-
-            // Автообновление телеметрии через API
             setInterval(() => {
                 fetch('/api/telemetry')
                     .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'ok' && data.data) {
-                            updateTelemetry(data.data);
-                        }
-                    })
+                    .then(data => { if (data.status === 'ok' && data.data) updateTelemetry(data.data); })
                     .catch(() => {});
             }, 5000);
-
-            // Обновление сессии
             fetch('/api/session')
                 .then(res => res.json())
                 .then(data => {
